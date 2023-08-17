@@ -76,9 +76,36 @@ const current = async (req, res) => {
     res.json(user)
 }
 
+const update = async (req, res) => {
+const {id} = req.userId;
+const userData = JSON.parse(JSON.stringify(req.body))
+const {password, name, email} = userData;
+
+if(req.file){
+    const {path} = req.file;
+    const uploadUserWithAvatar = await UserModule.findByIdAndUpdate(id, {
+        name,
+        email,
+        password,
+        avatar: path,
+   }, {new: true})
+
+    return res.json(uploadUserWithAvatar)
+}
+const hashPassword = await bcrypt.hash(password, 10);
+const uploadUserWithoutAvatar = await UserModule.findByIdAndUpdate(id, {
+   ...userData,
+    password: hashPassword,
+}, {new: true})
+
+res.json(uploadUserWithoutAvatar)
+
+}
+
 module.exports = {
     register: ctrlWrapper(register), 
     login: ctrlWrapper(login),
     logout: ctrlWrapper(logout),
-    current: ctrlWrapper(current)
+    current: ctrlWrapper(current),
+    update: ctrlWrapper(update)
 }

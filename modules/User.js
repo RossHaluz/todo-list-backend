@@ -2,7 +2,7 @@ const { Schema, model, Types } = require("mongoose");
 const Joi = require("joi");
 
 const UserSchema = new Schema({
-  name: { type: String },
+  name: { type: String, default: "" },
   email: {
     type: String,
     unique: true,
@@ -11,6 +11,10 @@ const UserSchema = new Schema({
   password: {
     type: String,
     require: true,
+  },
+  avatar: {
+    type: String,
+    default: ''
   },
   token: {
     type: String,

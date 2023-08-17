@@ -5,13 +5,17 @@ dotenv.config();
 
 const authRouter = require('./routes/auth');
 const taskRouter = require('./routes/task');
+const boardRouter = require('./routes/board');
+const columnRouter = require('./routes/column');
 
 const app = express();
 app.use(express.json())
 app.use(cors());
 
 app.use("/api/user", authRouter);
-app.use("/api/task", taskRouter)
+app.use("/api/task", taskRouter);
+app.use("/api/board", boardRouter);
+app.use('/api/column', columnRouter)
 
 app.use((req, res) => {
     res.status(404).json({message: "Not found"})

@@ -5,6 +5,7 @@ const validateBody = schema => {
        const {error} = schema.validate(req.body);
        if(error) {
         const errorName = error.details.map(item => item.message);
+        console.log(errorName);
         throw HttpError(400, errorName[0])
        }
        next()

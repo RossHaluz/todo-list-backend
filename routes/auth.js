@@ -1,5 +1,5 @@
-const { register, login, logout, current } = require('../controlesrs/auth');
-const { validateBody, checkAuth } = require('../middelwars');
+const { register, login, logout, current, update } = require('../controlesrs/auth');
+const { validateBody, checkAuth, upload } = require('../middelwars');
 const { authSchema } = require('../modules/User');
 const route = require('express').Router();
 
@@ -10,9 +10,12 @@ route.post('/register', validateBody(authSchema), register);
 route.post('/login', validateBody(authSchema), login);
 
 //Logout
-route.post('/logout', checkAuth, logout)
+route.post('/logout', checkAuth, logout);
 
 //Current user
-route.get('/current', checkAuth, current)
+route.get('/current', checkAuth, current);
+
+//Update user
+route.put('/update', checkAuth, upload.single('avatar'), update)
 
 module.exports = route;

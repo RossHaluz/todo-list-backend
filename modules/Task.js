@@ -19,17 +19,20 @@ const TaskSchema = new Schema({
   deadline: {
     type: String,
     require: true
+  }, 
+  column: {
+    type: Schema.Types.ObjectId,
+    require: true
   }
-});
+}, {versionKey: false, timestamps: true});
 
 const TaskModal = model('task', TaskSchema);
 
 const taskSchema = Joi.object({
   title: Joi.string().required(),
-  desc: Joi.string(),
-  process: Joi.string().required(),
+  desc: Joi.string().required(),
   priority: Joi.string().required(),
-  category: Joi.string().required(),
+  deadline: Joi.string().required(),
 })
 
 module.exports = {

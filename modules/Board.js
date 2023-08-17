@@ -4,13 +4,16 @@ const {Schema, model} = require('mongoose');
 const BoardSchema = new Schema({
     title: {
         type: String,
+        unique: true,
         require: true,
     },
     background: {
-        type: String
+        type: String,
+        default: ''
     },
     icon: {
-        type: String
+        type: String,
+        default: ''
     },
     colums: {
         type: [Schema.Types.ObjectId],
@@ -20,7 +23,7 @@ const BoardSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     }
-})
+}, {versionKey: false, timestamps: true})
 
 const BoardModel = model('board', BoardSchema);
 

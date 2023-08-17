@@ -10,7 +10,7 @@ const ColumSchema = new Schema({
         type: [Schema.Types.ObjectId],
         ref: 'Task'
     }
-})
+}, {versionKey: false, timestamps: true})
 
 const ColumModel = model('culum', ColumSchema);
 
