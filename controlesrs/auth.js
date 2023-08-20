@@ -78,24 +78,30 @@ const current = async (req, res) => {
 
 const update = async (req, res) => {
 const {id} = req.userId;
-const userData = JSON.parse(JSON.stringify(req.body))
-const {password, name, email} = userData;
+const {password, name, email} = req.body;
+
+const findUserByPassword = await UserModule.findById(id);
+const oldPass = findUserByPassword.password;
+const hashPassword = await bcrypt.hash(password, 10);
+
 
 if(req.file){
     const {path} = req.file;
+
     const uploadUserWithAvatar = await UserModule.findByIdAndUpdate(id, {
         name,
         email,
-        password,
+        password: oldPass !== password ? hashPassword : password,
         avatar: path,
    }, {new: true})
 
     return res.json(uploadUserWithAvatar)
 }
-const hashPassword = await bcrypt.hash(password, 10);
+
+
 const uploadUserWithoutAvatar = await UserModule.findByIdAndUpdate(id, {
-   ...userData,
-    password: hashPassword,
+   ...req.body,
+    password: oldPass !== password ? hashPassword : password
 }, {new: true})
 
 res.json(uploadUserWithoutAvatar)
