@@ -1,4 +1,4 @@
-const { createTask, getTasks, updateTask, deleteTask, filterTasks } = require('../controlesrs/task');
+const { createTask, getTasks, updateTask, deleteTask, filterTasks, dragTask } = require('../controlesrs/task');
 const { checkAuth, validateBody, upload } = require('../middelwars');
 const { taskSchema } = require('../modules/Task');
 const route = require('express').Router();
@@ -16,6 +16,9 @@ route.put('/update-task/:taskId', checkAuth, updateTask);
 route.delete('/delete-task/:taskId', checkAuth, deleteTask);
 
 //Filter tasks
-route.get('/filter-tasks/:filterName', checkAuth, filterTasks)
+route.get('/filter-tasks/:filterName', checkAuth, filterTasks);
+
+//Drag and drop task 
+route.patch('/drag-task/:taskId', checkAuth, dragTask);
 
 module.exports =  route;
