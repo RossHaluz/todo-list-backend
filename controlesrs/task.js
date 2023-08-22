@@ -25,21 +25,24 @@ res.json(tasks)
 
 const updateTask = async (req, res) => {
 const {taskId} = req.params;
-
 const updateTask = await TaskModal.findByIdAndUpdate(taskId, {...req.body}, {new: true})
 if(!updateTask) {
   throw HttpError(404, 'Task not found')
 }
+
 
 res.json(updateTask)
 }
 
 const deleteTask = async (req, res) => {
 const {taskId} = req.params;
+
 const deleteTask = await TaskModal.findByIdAndDelete(taskId)
 if(!deleteTask){
   throw HttpError(404, 'Task not found')
 }
+const column = await ColumModel.findOne({tasks: taskId})
+await ColumModel.findByIdAndUpdate(column._id, {$pull: {tasks: taskId}}, {new: true})
 
 res.json(deleteTask)
 }
