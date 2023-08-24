@@ -45,7 +45,6 @@ if(!board){
 }
 const columns = await Promise.all(
     board.colums.map(item => {
-        console.log('Hello 1');
        return ColumModel.findById(item);
     })
 )
@@ -53,7 +52,6 @@ const columns = await Promise.all(
 await Promise.all(
     columns.map(item => Promise.all(
         item.tasks.map(item => {
-            console.log(item);
             return TaskModal.findByIdAndDelete(item)
         })
     ))
@@ -61,7 +59,6 @@ await Promise.all(
 
 await Promise.all(
     board.colums.map(item => {
-        console.log('Hello 3');
         return ColumModel.findByIdAndDelete(item)
     })
 )
